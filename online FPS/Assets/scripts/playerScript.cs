@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro;
 
 public class playerScript : NetworkBehaviour
 {
@@ -14,6 +15,7 @@ public class playerScript : NetworkBehaviour
     [SerializeField]private float jumpHeight;
     [SerializeField]private float fireRate;
     [SerializeField]private float bulletsInMag;
+    [SerializeField]private float reloadTime;
     [Header("Set variables: ")]
     [SerializeField]private Transform cameraTransform;
     [SerializeField]private Transform groundCheck;
@@ -24,6 +26,7 @@ public class playerScript : NetworkBehaviour
     [SerializeField]private Transform hipFireTransform;
     [SerializeField]private Transform gunBarrel;
     [SerializeField]private GameObject bulletTrail;
+    [SerializeField]private TMP_Text bulletCountText;
 
     private CharacterController controller;
     private Camera mainCam;
@@ -41,11 +44,12 @@ public class playerScript : NetworkBehaviour
     private Vector3 velocity;
 
     private bool isGrounded;
+    private bool isReloading = false;
 
     private float speed;
 
     private float nextFire = 0f;
-    private float bulletCount = 0f;
+    private float bulletCount = 30f;
 
 
     private void Start() 
@@ -77,18 +81,31 @@ public class playerScript : NetworkBehaviour
     private void Update() 
     {
         if(!isLocalPlayer){return;}
+        bulletCountText.text = bulletCount.ToString();
         getInputs();
         movement();
         mouseLook();
         weaponADS();
-        if(Input.GetButton("Fire1") && Time.time > nextFire && bulletCount <= bulletsInMag)
+        if(Input.GetKey(KeyCode.R))
+        {
+            StartCoroutine(reload());
+        }
+        if(Input.GetButton("Fire1") && Time.time > nextFire && bulletCount > 0 && isReloading == false)
         {
             audioSource.Play();
             nextFire = Time.time + fireRate;
+            bulletCount--;
             CmdShoot(mainCam.transform.position, mainCam.transform.forward, gunBarrel.position, gunBarrel.rotation);
         }
     }
 
+    private IEnumerator reload()
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(reloadTime);
+        bulletCount = 30;
+        isReloading = false;
+    }
 
     [Command]
     private void CmdShoot(Vector3 _mainCamPos, Vector3 _mainCamDirection, Vector3 _gunBarrelPos, Quaternion _gunBarrelRot)
@@ -102,6 +119,10 @@ public class playerScript : NetworkBehaviour
             if(hit.transform.tag == "remotePlayer" || hit.transform.tag == "localPlayer")
             {
                 Debug.Log(hit.transform.name + " has been hit");
+                ClientChangeColor(hit.transform.gameObject);
+            }
+            if(hit.transform.tag == "target")
+            {
                 ClientChangeColor(hit.transform.gameObject);
             }
         }
@@ -176,8 +197,15 @@ public class playerScript : NetworkBehaviour
     [ClientRpc]
     private void ClientChangeColor(GameObject target)
     {
-        MeshRenderer targetMeshRenderer = target.transform.Find("playerModel").GetComponent<MeshRenderer>();
-        Color playerStartColor = targetMeshRenderer.material.color;
-        targetMeshRenderer.material.color = Color.red;
+        if(target.tag == "target")
+        {
+            target.GetComponent<MeshRenderer>().material.color = Color.red;
+        }
+        else
+        {
+            MeshRenderer targetMeshRenderer = target.transform.Find("playerModel").GetComponent<MeshRenderer>();
+            Color playerStartColor = targetMeshRenderer.material.color;
+            targetMeshRenderer.material.color = Color.red;
+        }
     }
 }
