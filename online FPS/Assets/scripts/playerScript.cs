@@ -64,8 +64,7 @@ public class playerScript : NetworkBehaviour
         mainCam = Camera.main;
         mainCam.transform.position = cameraTransform.position;
         mainCam.transform.rotation = cameraTransform.rotation;
-        mainCam.transform.parent = transform;
-        weaponHolster.transform.parent = mainCam.transform;
+        mainCam.transform.parent = cameraTransform;
         Cursor.lockState = CursorLockMode.Locked;
         speed = normalSpeed;
     }
@@ -111,7 +110,7 @@ public class playerScript : NetworkBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -85, 85);
 
-        mainCam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
     }
 
