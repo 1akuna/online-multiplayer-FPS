@@ -22,6 +22,8 @@ public class playerScript : NetworkBehaviour
     [SerializeField]private Transform weapon;
     [SerializeField]private Transform ADStransform;
     [SerializeField]private Transform hipFireTransform;
+    [SerializeField]private Transform gunBarrel;
+    [SerializeField]private GameObject bulletTrail;
 
     private CharacterController controller;
     private Camera mainCam;
@@ -83,22 +85,33 @@ public class playerScript : NetworkBehaviour
         {
             audioSource.Play();
             nextFire = Time.time + fireRate;
-            CmdShoot(mainCam.transform.position, mainCam.transform.forward);
+            CmdShoot(mainCam.transform.position, mainCam.transform.forward, gunBarrel.position, gunBarrel.rotation);
         }
     }
 
 
     [Command]
-    private void CmdShoot(Vector3 _mainCamPos, Vector3 _mainCamDirection)
+    private void CmdShoot(Vector3 _mainCamPos, Vector3 _mainCamDirection, Vector3 _gunBarrelPos, Quaternion _gunBarrelRot)
     {
         if(Physics.Raycast(_mainCamPos, _mainCamDirection, out RaycastHit hit, Mathf.Infinity))
         {
+            GameObject bulletTrailInstance = Instantiate(bulletTrail, _gunBarrelPos, _gunBarrelRot);
+            NetworkServer.Spawn(bulletTrailInstance);
+            spawnBulletTrail(bulletTrailInstance, _gunBarrelPos, hit.point);
+            Destroy(bulletTrailInstance, 1f);
             if(hit.transform.tag == "remotePlayer" || hit.transform.tag == "localPlayer")
             {
                 Debug.Log(hit.transform.name + " has been hit");
                 ClientChangeColor(hit.transform.gameObject);
             }
         }
+    }
+    [ClientRpc]
+    private void spawnBulletTrail(GameObject bulletTrailInstance, Vector3 _gunBarrelPos, Vector3 hitPoint)
+    {
+        LineRenderer lineR = bulletTrailInstance.GetComponent<LineRenderer>();
+        lineR.SetPosition(0, _gunBarrelPos);
+        lineR.SetPosition(1, hitPoint);
     }
 
     private void weaponADS()
