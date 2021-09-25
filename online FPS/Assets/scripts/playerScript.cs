@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
+using Mirror;
 
 public class playerScript : NetworkBehaviour
 {
@@ -26,6 +26,7 @@ public class playerScript : NetworkBehaviour
     private CharacterController controller;
     private Camera mainCam;
     private AudioSource audioSource;
+    private NetworkTransformChild networkTransformChild;
 
     private float moveX;
     private float MoveZ;
@@ -50,10 +51,12 @@ public class playerScript : NetworkBehaviour
         if(isLocalPlayer)
         {
             transform.tag = "localPlayer";
+            weapon.gameObject.layer = LayerMask.NameToLayer("localWeapon");
         }
         else
         {
             transform.tag = "remotePlayer";
+            weapon.gameObject.layer = LayerMask.NameToLayer("Default");
         }
         if(!isLocalPlayer){return;}
         audioSource = GameObject.Find("SFX").GetComponent<AudioSource>();

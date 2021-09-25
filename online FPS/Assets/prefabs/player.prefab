@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8146031958397807017}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: ADSpos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8146031958546063317}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: weaponHolster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8146031959223538234}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: hipFirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,6 +247,7 @@ GameObject:
   - component: {fileID: 1396083856556886975}
   - component: {fileID: 8447645323160627197}
   - component: {fileID: 1635577501642477695}
+  - component: {fileID: 1267655246399756899}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -366,6 +367,36 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &1267655246399756899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447645323160627193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 1
+  sendInterval: 0.05
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  bufferTimeMultiplier: 3
+  bufferSizeLimit: 64
+  catchupThreshold: 6
+  catchupMultiplier: 0.1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  target: {fileID: 8540581455494468503}
 --- !u!1 &8836789662986748449
 GameObject:
   m_ObjectHideFlags: 0
