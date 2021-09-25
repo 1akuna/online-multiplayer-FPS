@@ -48,6 +48,9 @@ public class playerScript : NetworkBehaviour
 
     private void Start() 
     {
+        string ID = "Player " + GetComponent<NetworkIdentity>().netId;
+        transform.name = ID;
+
         if(isLocalPlayer)
         {
             transform.tag = "localPlayer";
@@ -76,18 +79,24 @@ public class playerScript : NetworkBehaviour
         movement();
         mouseLook();
         weaponADS();
-        shoot();
-    }
-
-    private void shoot()
-    {
         if(Input.GetButton("Fire1") && Time.time > nextFire && bulletCount <= bulletsInMag)
         {
             audioSource.Play();
             nextFire = Time.time + fireRate;
-            if(Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out RaycastHit hit, Mathf.Infinity))
+            CmdShoot(mainCam.transform.position, mainCam.transform.forward);
+        }
+    }
+
+
+    [Command]
+    private void CmdShoot(Vector3 _mainCamPos, Vector3 _mainCamDirection)
+    {
+        if(Physics.Raycast(_mainCamPos, _mainCamDirection, out RaycastHit hit, Mathf.Infinity))
+        {
+            if(hit.transform.tag == "remotePlayer" || hit.transform.tag == "localPlayer")
             {
-                CmdHitSomthing();
+                Debug.Log(hit.transform.name + " has been hit");
+                ClientChangeColor(hit.transform.gameObject);
             }
         }
     }
@@ -151,9 +160,11 @@ public class playerScript : NetworkBehaviour
             speed = normalSpeed;
         }
     }
-    [Command]
-    private void CmdHitSomthing()
+    [ClientRpc]
+    private void ClientChangeColor(GameObject target)
     {
-        Debug.Log("hit somthing!");
+        MeshRenderer targetMeshRenderer = target.transform.Find("playerModel").GetComponent<MeshRenderer>();
+        Color playerStartColor = targetMeshRenderer.material.color;
+        targetMeshRenderer.material.color = Color.red;
     }
 }
