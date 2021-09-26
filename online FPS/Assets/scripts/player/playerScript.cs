@@ -18,11 +18,13 @@ public class playerScript : NetworkBehaviour
     [SerializeField]private Transform groundCheck;
     [SerializeField]private LayerMask groundMask;
     [SerializeField]private Transform weapon;
+    [SerializeField]private GameObject canvas;
 
     private CharacterController controller;
     private Camera mainCam;
     private AudioSource audioSource;
     private NetworkTransformChild networkTransformChild;
+    private playerDeath playerDeathScript;
 
     private float moveX;
     private float MoveZ;
@@ -57,17 +59,20 @@ public class playerScript : NetworkBehaviour
         if(!isLocalPlayer){return;}
         audioSource = GameObject.Find("SFX").GetComponent<AudioSource>();
         controller = gameObject.GetComponent<CharacterController>();
+        playerDeathScript = gameObject.GetComponent<playerDeath>();
         mainCam = Camera.main;
         mainCam.transform.position = cameraTransform.position;
         mainCam.transform.rotation = cameraTransform.rotation;
         mainCam.transform.parent = cameraTransform;
         Cursor.lockState = CursorLockMode.Locked;
         speed = normalSpeed;
+        canvas.SetActive(true);
     }
 
     private void Update() 
     {
         if(!isLocalPlayer){return;}
+        if(playerDeathScript.isDead == true){return;}
         getInputs();
         movement();
         mouseLook();

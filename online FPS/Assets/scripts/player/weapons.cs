@@ -24,6 +24,7 @@ public class weapons : NetworkBehaviour
 
     private AudioSource audioSource;
     private Camera mainCam;
+    private playerDeath playerDeathScript;
 
     public bool isReloading;
     private float nextFire = 0f;
@@ -39,12 +40,14 @@ public class weapons : NetworkBehaviour
         }
         thisIsLocalPlayer = true;
         audioSource = GameObject.Find("SFX").GetComponent<AudioSource>();
+        playerDeathScript = gameObject.GetComponent<playerDeath>();
         mainCam = Camera.main;
     }
 
     private void Update() 
     {
         if(!isLocalPlayer){return;}
+        if(playerDeathScript.isDead == true){return;}
         bulletCountText.text = bulletCount.ToString();
         weaponADS();
         if(Input.GetKey(KeyCode.R))
@@ -92,7 +95,6 @@ public class weapons : NetworkBehaviour
             if(hit.transform.tag == "remotePlayer" || hit.transform.tag == "localPlayer")
             {
                 if(hit.transform.name == shooterName){return;}
-                Debug.Log(hit.transform.name + " has been hit");
                 ClientChangeColor(hit.transform.gameObject);
             }
             if(hit.transform.tag == "target")
@@ -132,6 +134,7 @@ public class weapons : NetworkBehaviour
         }
         else
         {
+            target.GetComponent<playerDeath>().Die(target.transform);
             MeshRenderer targetMeshRenderer = target.transform.Find("playerModel").GetComponent<MeshRenderer>();
             Color playerStartColor = targetMeshRenderer.material.color;
             targetMeshRenderer.material.color = Color.red;

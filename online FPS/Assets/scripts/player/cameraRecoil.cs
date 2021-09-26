@@ -5,6 +5,7 @@ using UnityEngine;
 public class cameraRecoil : MonoBehaviour
 {
     [SerializeField]private weapons weaponsScript;
+    [SerializeField]private playerDeath playerDeathScript;
     [Header("Recoil Settings: ")]
     [SerializeField]private float rotationSpeed = 6;
     [SerializeField]private float retrunSpeed = 25;
@@ -23,6 +24,7 @@ public class cameraRecoil : MonoBehaviour
     private void FixedUpdate() 
     {
         if(!weaponsScript.thisIsLocalPlayer){return;}
+        if(playerDeathScript.isDead == true){return;}
         currentRotation = Vector3.Lerp(currentRotation, Vector3.zero, retrunSpeed * Time.deltaTime);
         Rot = Vector3.Slerp(Rot, currentRotation, rotationSpeed * Time.fixedDeltaTime);
         transform.localRotation = Quaternion.Euler(Rot);
@@ -31,6 +33,7 @@ public class cameraRecoil : MonoBehaviour
     private void Update() 
     {
         if(!weaponsScript.thisIsLocalPlayer){return;}
+        if(playerDeathScript.isDead == true){return;}
         if(Input.GetButton("Fire1") && weaponsScript.bulletCount > 0 && weaponsScript.isReloading == false)
         {
             Fire();
