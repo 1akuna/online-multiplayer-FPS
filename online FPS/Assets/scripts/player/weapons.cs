@@ -73,11 +73,14 @@ public class weapons : NetworkBehaviour
     {
         if(Physics.Raycast(_mainCamPos, _mainCamDirection, out RaycastHit hit, Mathf.Infinity))
         {
-            //bulletHole
-            GameObject bulletHoleInstance = Instantiate(bulletHolePrefab, hit.point + hit.normal * 0.001f, Quaternion.identity) as GameObject;
-            NetworkServer.Spawn(bulletHoleInstance);
-            bulletHoleInstance.transform.LookAt(hit.point + hit.normal);
-            Destroy(bulletHoleInstance, 3f);
+            if(hit.transform.tag != "remotePlayer" || hit.transform.tag != "localPlayer")
+            {
+                //bulletHole
+                GameObject bulletHoleInstance = Instantiate(bulletHolePrefab, hit.point + hit.normal * 0.001f, Quaternion.identity) as GameObject;
+                NetworkServer.Spawn(bulletHoleInstance);
+                bulletHoleInstance.transform.LookAt(hit.point + hit.normal);
+                Destroy(bulletHoleInstance, 3f);
+            }
 
             //bulletTrail
             GameObject bulletTrailInstance = Instantiate(bulletTrail, _gunBarrelPos, _gunBarrelRot);
