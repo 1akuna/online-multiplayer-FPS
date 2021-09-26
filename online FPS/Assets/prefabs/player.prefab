@@ -181,9 +181,8 @@ MonoBehaviour:
   weaponsScript: {fileID: 8268423394200487720}
   rotationSpeed: 10
   retrunSpeed: 25
-  RecoilRotation: {x: 2, y: 2, z: 2}
+  RecoilRotation: {x: 1, y: 1, z: 1}
   RecoilRotationAiming: {x: 0.5, y: 0.5, z: 0.5}
-  aiming: 0
 --- !u!1 &7328817219963736908
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,7 +497,7 @@ MonoBehaviour:
   normalSpeed: 10
   sprintSpeed: 20
   mouseSens: 0.7
-  gravity: -30
+  gravity: -40
   jumpHeight: 4
   cameraTransform: {fileID: 8447645321998677971}
   groundCheck: {fileID: 5919785111733854483}

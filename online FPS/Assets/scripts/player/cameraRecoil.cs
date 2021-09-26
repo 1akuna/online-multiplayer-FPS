@@ -10,14 +10,13 @@ public class cameraRecoil : MonoBehaviour
     [SerializeField]private float retrunSpeed = 25;
 
     [Header("hipFire: ")]
-    [SerializeField] private Vector3 RecoilRotation = new Vector3(2f, 2f, 2f);
+    [SerializeField] private Vector3 RecoilRotation = new Vector3(1f, 1f, 1f);
 
     [Header("Aiming: ")]
     [SerializeField]private Vector3 RecoilRotationAiming = new Vector3(0.5f, 0.5f, 0.5f);
 
-    [Header("state: ")]
-    [SerializeField]private bool aiming;
 
+    private bool aiming;
     private Vector3 currentRotation;
     private Vector3 Rot;
 
