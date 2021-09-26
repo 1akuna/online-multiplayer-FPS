@@ -25,13 +25,19 @@ public class weapons : NetworkBehaviour
     private AudioSource audioSource;
     private Camera mainCam;
 
-    private bool isReloading;
+    public bool isReloading;
     private float nextFire = 0f;
-    private float bulletCount = 30f;
+    public float bulletCount = 30f;
+    public bool thisIsLocalPlayer;
 
     private void Start() 
     {
-        if(!isLocalPlayer){return;}
+        if(!isLocalPlayer)
+        {
+            thisIsLocalPlayer = false;
+            return;
+        }
+        thisIsLocalPlayer = true;
         audioSource = GameObject.Find("SFX").GetComponent<AudioSource>();
         mainCam = Camera.main;
     }
