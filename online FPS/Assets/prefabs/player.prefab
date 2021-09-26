@@ -379,11 +379,15 @@ GameObject:
   m_Component:
   - component: {fileID: 8447645323160627194}
   - component: {fileID: 8447645323160627195}
+  - component: {fileID: 5813141837225712164}
   - component: {fileID: 1396083856556886975}
+  - component: {fileID: 8268423394200487720}
   - component: {fileID: 8447645323160627197}
   - component: {fileID: 1635577501642477695}
   - component: {fileID: 8478813916434503147}
   - component: {fileID: 5551737380937826764}
+  - component: {fileID: 3853763105876846257}
+  - component: {fileID: 4096242302400714203}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -427,6 +431,20 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &5813141837225712164
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447645323160627193}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.59
+  m_Height: 3.09
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1396083856556886975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,22 +463,41 @@ MonoBehaviour:
   sprintSpeed: 20
   mouseSens: 0.7
   gravity: -30
-  jumpHeight: 3
-  fireRate: 0.1
-  bulletsInMag: 30
-  reloadTime: 0.5
+  jumpHeight: 4
   cameraTransform: {fileID: 8447645321998677971}
   groundCheck: {fileID: 5919785111733854483}
   groundMask:
     serializedVersion: 2
     m_Bits: 128
-  weaponHolster: {fileID: 8146031958546063317}
   weapon: {fileID: 8540581455494468503}
+--- !u!114 &8268423394200487720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447645323160627193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d451c008be933f449ab9439d100d7cc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  bulletTrail: {fileID: 1930985349805526, guid: d2ec70c814159504cb3e12e99b00b151, type: 3}
+  bulletHolePrefab: {fileID: 5171991416439644663, guid: 72d8930cc01c7904794c5d4fc1c23099, type: 3}
+  weaponHolster: {fileID: 8146031958546063317}
   ADStransform: {fileID: 8146031958397807017}
   hipFireTransform: {fileID: 8146031959223538234}
-  gunBarrel: {fileID: 5448848715194836035}
-  bulletTrail: {fileID: 1930985349805526, guid: d2ec70c814159504cb3e12e99b00b151, type: 3}
   bulletCountText: {fileID: 5828620503789705775}
+  canBeShot:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  weapon: {fileID: 8540581455494468503}
+  fireRate: 0.1
+  bulletsInMag: 30
+  reloadTime: 0.5
+  gunBarrel: {fileID: 5448848715194836035}
 --- !u!114 &8447645323160627197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,6 +604,41 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   target: {fileID: 8540581455494468503}
+--- !u!114 &3853763105876846257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447645323160627193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  animator: {fileID: 4096242302400714203}
+--- !u!95 &4096242302400714203
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447645323160627193}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 66c41d2448fc0f84690dc436bfe881d0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8482764217532707632
 GameObject:
   m_ObjectHideFlags: 0
