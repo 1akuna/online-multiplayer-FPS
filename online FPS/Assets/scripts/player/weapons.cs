@@ -50,7 +50,7 @@ public class weapons : NetworkBehaviour
         if(playerDeathScript.isDead == true){return;}
         bulletCountText.text = bulletCount.ToString();
         weaponADS();
-        if(Input.GetKey(KeyCode.R))
+        if(Input.GetKeyDown(KeyCode.R) && bulletCount != 30)
         {
             StartCoroutine(reload());
         }
@@ -65,8 +65,10 @@ public class weapons : NetworkBehaviour
 
     private IEnumerator reload()
     {
+        anim.SetBool("isReloading", true);
         isReloading = true;
         yield return new WaitForSeconds(reloadTime);
+        anim.SetBool("isReloading", false);
         bulletCount = 30;
         isReloading = false;
     }

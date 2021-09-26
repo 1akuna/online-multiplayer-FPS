@@ -2,7 +2,19 @@ fileFormatVersion: 2
 guid: 01105569511cf8146a101880ac93328f
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -6973634066279703453
+    second: gunBase|Action
+  - first:
+      74: 8704525979143464534
+    second: gunBase|reloading
+  - first:
+      74: 4551968712796935311
+    second: mag|Action
+  - first:
+      74: -4882828706795797496
+    second: mag|reloading
   externalObjects: {}
   materials:
     materialImportMode: 2
