@@ -182,7 +182,7 @@ MonoBehaviour:
   rotationSpeed: 10
   retrunSpeed: 25
   RecoilRotation: {x: 1, y: 1, z: 1}
-  RecoilRotationAiming: {x: 0.8, y: 0.8, z: 0.8}
+  RecoilRotationAiming: {x: 0.5, y: 0.8, z: 0.8}
 --- !u!1 &7328817219963736908
 GameObject:
   m_ObjectHideFlags: 0

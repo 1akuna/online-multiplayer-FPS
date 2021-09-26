@@ -56,7 +56,7 @@ public class weapons : NetworkBehaviour
             audioSource.Play();
             nextFire = Time.time + fireRate;
             bulletCount--;
-            CmdShoot(mainCam.transform.position, mainCam.transform.forward, gunBarrel.position, gunBarrel.rotation);
+            CmdShoot(mainCam.transform.position, mainCam.transform.forward, gunBarrel.position, gunBarrel.rotation, transform.name);
         }
     }
 
@@ -69,7 +69,7 @@ public class weapons : NetworkBehaviour
     }
 
     [Command]
-    private void CmdShoot(Vector3 _mainCamPos, Vector3 _mainCamDirection, Vector3 _gunBarrelPos, Quaternion _gunBarrelRot)
+    private void CmdShoot(Vector3 _mainCamPos, Vector3 _mainCamDirection, Vector3 _gunBarrelPos, Quaternion _gunBarrelRot, string shooterName)
     {
         if(Physics.Raycast(_mainCamPos, _mainCamDirection, out RaycastHit hit, Mathf.Infinity))
         {
@@ -91,6 +91,7 @@ public class weapons : NetworkBehaviour
             //check if player was hit
             if(hit.transform.tag == "remotePlayer" || hit.transform.tag == "localPlayer")
             {
+                if(hit.transform.name == shooterName){return;}
                 Debug.Log(hit.transform.name + " has been hit");
                 ClientChangeColor(hit.transform.gameObject);
             }
