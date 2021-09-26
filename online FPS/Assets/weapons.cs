@@ -13,6 +13,7 @@ public class weapons : NetworkBehaviour
     [SerializeField]private Transform hipFireTransform;
     [SerializeField]private TMP_Text bulletCountText;
     [SerializeField]private LayerMask canBeShot;
+    [SerializeField]private Animator anim;
 
     [Header("Gun Cusomization: ")]
     [SerializeField]private Transform weapon;
@@ -44,7 +45,7 @@ public class weapons : NetworkBehaviour
         {
             StartCoroutine(reload());
         }
-        if(Input.GetButton("Fire1") && Time.time > nextFire && bulletCount > 0 && isReloading == false)
+        if(Input.GetKey(KeyCode.Mouse0) && Time.time > nextFire && bulletCount > 0 && isReloading == false)
         {
             audioSource.Play();
             nextFire = Time.time + fireRate;
@@ -70,7 +71,7 @@ public class weapons : NetworkBehaviour
             GameObject bulletHoleInstance = Instantiate(bulletHolePrefab, hit.point + hit.normal * 0.001f, Quaternion.identity) as GameObject;
             NetworkServer.Spawn(bulletHoleInstance);
             bulletHoleInstance.transform.LookAt(hit.point + hit.normal);
-            Destroy(bulletHoleInstance, 2f);
+            Destroy(bulletHoleInstance, 3f);
 
             //bulletTrail
             GameObject bulletTrailInstance = Instantiate(bulletTrail, _gunBarrelPos, _gunBarrelRot);
@@ -102,11 +103,13 @@ public class weapons : NetworkBehaviour
     {
         if(Input.GetKey(KeyCode.Mouse1))
         {
-            weapon.transform.position = ADStransform.position;
+            //weapon.transform.position = ADStransform.position;
+            anim.SetBool("isAiming", true);
         }
         else if(!Input.GetKey(KeyCode.Mouse1))
         {
-            weapon.transform.position = hipFireTransform.position;
+            //weapon.transform.position = hipFireTransform.position;
+            anim.SetBool("isAiming", false);
         }
 
     }

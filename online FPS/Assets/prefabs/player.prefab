@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 934291213826118639}
   - component: {fileID: 5128935105611801435}
   - component: {fileID: 5828620503789705775}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: bulletCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5448848715194836035}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: gunBarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8146031958397807017}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: ADSpos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8146031958546063317}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8146031958546063314
 GameObject:
@@ -203,7 +203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8146031958546063317}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: weaponHolster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,8 +222,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8146031959223538234}
-  - {fileID: 8146031958397807017}
   - {fileID: 8540581455494468503}
+  - {fileID: 8146031958397807017}
   m_Father: {fileID: 8447645321998677971}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -236,7 +236,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8146031959223538234}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: hipFirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8447645321998677971}
-  m_Layer: 0
+  - component: {fileID: 9150606692430855967}
+  m_Layer: 8
   m_Name: cameraPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,6 +289,18 @@ Transform:
   m_Father: {fileID: 8447645323160627194}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9150606692430855967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447645321998677970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07d9cb43f58cc5c468c374657d5570ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8447645322612897930
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +312,7 @@ GameObject:
   - component: {fileID: 8447645322612897931}
   - component: {fileID: 8447645322612897934}
   - component: {fileID: 8447645322612897933}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: playerModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +392,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8447645323160627194}
   - component: {fileID: 8447645323160627195}
-  - component: {fileID: 5813141837225712164}
   - component: {fileID: 1396083856556886975}
   - component: {fileID: 8268423394200487720}
   - component: {fileID: 8447645323160627197}
@@ -388,7 +400,7 @@ GameObject:
   - component: {fileID: 5551737380937826764}
   - component: {fileID: 3853763105876846257}
   - component: {fileID: 4096242302400714203}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,20 +442,6 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &5813141837225712164
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8447645323160627193}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.59
-  m_Height: 3.09
-  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1396083856556886975
 MonoBehaviour:
@@ -492,7 +490,8 @@ MonoBehaviour:
   bulletCountText: {fileID: 5828620503789705775}
   canBeShot:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 247
+  anim: {fileID: 4096242302400714203}
   weapon: {fileID: 8540581455494468503}
   fireRate: 0.1
   bulletsInMag: 30
@@ -618,7 +617,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 0
+  clientAuthority: 1
   animator: {fileID: 4096242302400714203}
 --- !u!95 &4096242302400714203
 Animator:
@@ -651,7 +650,7 @@ GameObject:
   - component: {fileID: 8931429875673062299}
   - component: {fileID: 1629262827550845690}
   - component: {fileID: 4356145230562997783}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -748,7 +747,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5919785111733854483}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: groundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -780,7 +779,7 @@ GameObject:
   - component: {fileID: 8540581455494468503}
   - component: {fileID: 4695536974990564402}
   - component: {fileID: 7407595970983536888}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: smgGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -795,12 +794,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9065162458007144749}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.8436198, y: 0.16699994, z: 1.3886807}
+  m_LocalPosition: {x: 0.8436198, y: 0.16699994, z: 1.388681}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5448848715194836035}
   m_Father: {fileID: 8146031958546063317}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &4695536974990564402
 MeshFilter:
