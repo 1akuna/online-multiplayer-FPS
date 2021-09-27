@@ -821,9 +821,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  playerHealth: 4
+  respawnPoint: {fileID: 0}
   weapon: {fileID: 7084877632649649548}
   respawnButton: {fileID: 1631248527812335252}
   isDead: 0
+  health: 0
 --- !u!114 &8447645323160627197
 MonoBehaviour:
   m_ObjectHideFlags: 0
