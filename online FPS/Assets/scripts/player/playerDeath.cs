@@ -5,10 +5,17 @@ using UnityEngine;
 
 public class playerDeath : NetworkBehaviour
 {
+    public Transform respawnPoint;
     public GameObject weapon;
     public GameObject respawnButton;
     public bool isDead = false;
     private Transform target;
+
+    private void Start() 
+    {
+        respawnPoint = GameObject.Find("spawnPoint1").transform;
+    }
+
     public void Die(Transform _target)
     {
         target = _target;
@@ -34,6 +41,7 @@ public class playerDeath : NetworkBehaviour
         target.GetComponent<playerDeath>().isDead = false;
         target.GetComponent<playerDeath>().respawnButton.SetActive(false);
         target.GetComponent<playerDeath>().weapon.SetActive(true);
+        //target.transform.position = target.GetComponent<playerDeath>().respawnPoint.position;
         Cursor.lockState = CursorLockMode.Locked;
     }
 }

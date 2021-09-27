@@ -452,7 +452,7 @@ MonoBehaviour:
   rotationSpeed: 10
   retrunSpeed: 25
   RecoilRotation: {x: 1, y: 1, z: 1}
-  RecoilRotationAiming: {x: 0.5, y: 0.8, z: 0.8}
+  RecoilRotationAiming: {x: 0.5, y: 0.5, z: 0.5}
 --- !u!1 &7328817219963736908
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,15 +797,13 @@ MonoBehaviour:
   ADStransform: {fileID: 8146031958397807017}
   hipFireTransform: {fileID: 8146031959223538234}
   bulletCountText: {fileID: 5828620503789705775}
-  canBeShot:
-    serializedVersion: 2
-    m_Bits: 247
   anim: {fileID: 4096242302400714203}
   weapon: {fileID: 7573183238563235638}
   fireRate: 0.1
   bulletsInMag: 30
-  reloadTime: 0.5
+  reloadTime: 0.7
   gunBarrel: {fileID: 5448848715194836035}
+  raycastThickness: 0.25
   isReloading: 0
   bulletCount: 30
   thisIsLocalPlayer: 0
@@ -1179,6 +1177,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8156188778583273094, guid: 01105569511cf8146a101880ac93328f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 698621012f4317746bf1b79896b709b6, type: 2}
     - target: {fileID: -7245380635185398197, guid: 01105569511cf8146a101880ac93328f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1199,6 +1201,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1573986855290194551, guid: 01105569511cf8146a101880ac93328f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1b9854cb4546be94796b7c0e97c44249, type: 2}
     - target: {fileID: -1461304994638716399, guid: 01105569511cf8146a101880ac93328f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1255,6 +1261,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: smgGun
       objectReference: {fileID: 0}
+    - target: {fileID: 2671228403061473599, guid: 01105569511cf8146a101880ac93328f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1b9854cb4546be94796b7c0e97c44249, type: 2}
+    - target: {fileID: 3437867188382935422, guid: 01105569511cf8146a101880ac93328f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1b9854cb4546be94796b7c0e97c44249, type: 2}
     - target: {fileID: 5286862723786120647, guid: 01105569511cf8146a101880ac93328f, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -1299,6 +1313,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8881504032098850718, guid: 01105569511cf8146a101880ac93328f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1b9854cb4546be94796b7c0e97c44249, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01105569511cf8146a101880ac93328f, type: 3}
 --- !u!4 &7573183238563235638 stripped

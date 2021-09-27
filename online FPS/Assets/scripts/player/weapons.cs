@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
@@ -12,7 +13,6 @@ public class weapons : NetworkBehaviour
     [SerializeField]private Transform ADStransform;
     [SerializeField]private Transform hipFireTransform;
     [SerializeField]private TMP_Text bulletCountText;
-    [SerializeField]private LayerMask canBeShot;
     [SerializeField]private Animator anim;
 
     [Header("Gun Cusomization: ")]
@@ -21,6 +21,7 @@ public class weapons : NetworkBehaviour
     [SerializeField]private float bulletsInMag;
     [SerializeField]private float reloadTime;
     [SerializeField]private Transform gunBarrel;
+    [SerializeField]private float raycastThickness;
 
     private AudioSource audioSource;
     private Camera mainCam;
@@ -59,7 +60,7 @@ public class weapons : NetworkBehaviour
             audioSource.Play();
             nextFire = Time.time + fireRate;
             bulletCount--;
-            CmdShoot(mainCam.transform.position, mainCam.transform.forward, gunBarrel.position, gunBarrel.rotation, transform.name);
+            CmdShoot(mainCam.transform.position, mainCam.transform.forward, gunBarrel.position, gunBarrel.rotation, raycastThickness, transform.name);
         }
     }
 
@@ -74,11 +75,11 @@ public class weapons : NetworkBehaviour
     }
 
     [Command]
-    private void CmdShoot(Vector3 _mainCamPos, Vector3 _mainCamDirection, Vector3 _gunBarrelPos, Quaternion _gunBarrelRot, string shooterName)
+    private void CmdShoot(Vector3 _mainCamPos, Vector3 _mainCamDirection, Vector3 _gunBarrelPos, Quaternion _gunBarrelRot, float _raycastThickness, string shooterName)
     {
-        if(Physics.Raycast(_mainCamPos, _mainCamDirection, out RaycastHit hit, Mathf.Infinity))
+        if(Physics.SphereCast(_mainCamPos, _raycastThickness, _mainCamDirection, out RaycastHit hit, Mathf.Infinity))
         {
-            if(hit.transform.tag != "remotePlayer" || hit.transform.tag != "localPlayer")
+            if(hit.transform.gameObject.layer != LayerMask.NameToLayer("Player"))
             {
                 //bulletHole
                 GameObject bulletHoleInstance = Instantiate(bulletHolePrefab, hit.point + hit.normal * 0.001f, Quaternion.identity) as GameObject;
@@ -86,7 +87,7 @@ public class weapons : NetworkBehaviour
                 bulletHoleInstance.transform.LookAt(hit.point + hit.normal);
                 Destroy(bulletHoleInstance, 3f);
             }
-
+            
             //bulletTrail
             GameObject bulletTrailInstance = Instantiate(bulletTrail, _gunBarrelPos, _gunBarrelRot);
             NetworkServer.Spawn(bulletTrailInstance);
@@ -132,7 +133,8 @@ public class weapons : NetworkBehaviour
     {
         if(target.tag == "target")
         {
-            target.GetComponent<MeshRenderer>().material.color = Color.red;
+            target.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            StartCoroutine(waitToResetColor(target));
         }
         else
         {
@@ -141,5 +143,11 @@ public class weapons : NetworkBehaviour
             Color playerStartColor = targetMeshRenderer.material.color;
             targetMeshRenderer.material.color = Color.red;
         }
+    }
+
+    private IEnumerator waitToResetColor(GameObject target)
+    {
+        yield return new WaitForSeconds(2f);
+        target.GetComponent<MeshRenderer>().material.color = Color.blue;
     }
 }
