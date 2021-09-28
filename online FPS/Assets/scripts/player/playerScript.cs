@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class playerScript : NetworkBehaviour
 {
@@ -19,6 +20,7 @@ public class playerScript : NetworkBehaviour
     [SerializeField]private LayerMask groundMask;
     [SerializeField]private Transform weapon;
     [SerializeField]private GameObject canvas;
+    [SerializeField]private GameObject pauseMenuPanel;
 
     private CharacterController controller;
     private Camera mainCam;
@@ -35,15 +37,16 @@ public class playerScript : NetworkBehaviour
     private float xRotation = 0f;
 
     private Vector3 velocity;
+    private Vector3 weaponStartPos;
 
     private bool isGrounded;
 
     private float speed;
-
+    private bool pauseMenuActive;
 
     private void Start() 
     {
-        string ID = "Player " + GetComponent<NetworkIdentity>().netId;
+        string ID = "Player " + NetworkServer.connections.Count;
         transform.name = ID;
 
         if(isLocalPlayer)
@@ -67,12 +70,33 @@ public class playerScript : NetworkBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         speed = normalSpeed;
         canvas.SetActive(true);
+        weaponStartPos = weapon.position;
     }
 
     private void Update() 
     {
         if(!isLocalPlayer){return;}
         if(playerDeathScript.isDead == true){return;}
+
+        if(pauseMenuActive == true)
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                pauseMenuPanel.SetActive(false);
+                pauseMenuActive = false;
+            }
+            else
+            {
+                return;
+            }
+        }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            pauseMenuPanel.SetActive(true);
+            pauseMenuActive = true;
+        }
         getInputs();
         movement();
         mouseLook();
@@ -123,5 +147,24 @@ public class playerScript : NetworkBehaviour
             //notSprinting
             speed = normalSpeed;
         }
+    }
+    public void pauseMenu_Resume()
+    {
+        if(!isLocalPlayer){return;}
+        Cursor.lockState = CursorLockMode.Locked;
+        pauseMenuPanel.SetActive(false);
+        pauseMenuActive = false;
+    }
+    public void pauseMenu_Exit()
+    {
+        if(isClientOnly)
+        {
+            NetworkManager.singleton.StopClient();
+        }
+        else if(isServer)
+        {
+            NetworkManager.singleton.StopHost();
+        }
+        Application.Quit();
     }
 }

@@ -7,6 +7,7 @@ TagManager:
   - remotePlayer
   - localPlayer
   - target
+  - wallRideable
   layers:
   - Default
   - TransparentFX

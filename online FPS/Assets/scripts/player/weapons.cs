@@ -10,8 +10,6 @@ public class weapons : NetworkBehaviour
     [SerializeField]private GameObject bulletTrail;
     [SerializeField]private GameObject bulletHolePrefab;
     [SerializeField]private Transform weaponHolster;
-    [SerializeField]private Transform ADStransform;
-    [SerializeField]private Transform hipFireTransform;
     [SerializeField]private TMP_Text bulletCountText;
     [SerializeField]private Animator anim;
 
@@ -23,14 +21,25 @@ public class weapons : NetworkBehaviour
     [SerializeField]private Transform gunBarrel;
     [SerializeField]private float raycastThickness;
 
+    [Header("weapon sway: ")]
+    [SerializeField]private float weaponSwaySmoothness;
+    [SerializeField]private float swayAmountHipfire;
+    [SerializeField]private float swayAmountADS;
+
     private AudioSource audioSource;
     private Camera mainCam;
     private playerDeath playerDeathScript;
 
+    private Vector3 initialWeaponPosition;
+
+    [HideInInspector]
     public bool isReloading;
     private float nextFire = 0f;
+    [HideInInspector]
     public float bulletCount = 30f;
+    [HideInInspector]
     public bool thisIsLocalPlayer;
+    private float swayAmount;
 
     private void Start() 
     {
@@ -43,6 +52,8 @@ public class weapons : NetworkBehaviour
         audioSource = GameObject.Find("SFX").GetComponent<AudioSource>();
         playerDeathScript = gameObject.GetComponent<playerDeath>();
         mainCam = Camera.main;
+        initialWeaponPosition = weaponHolster.localPosition;
+        swayAmount = swayAmountHipfire;
     }
 
     private void Update() 
@@ -51,6 +62,7 @@ public class weapons : NetworkBehaviour
         if(playerDeathScript.isDead == true){return;}
         bulletCountText.text = bulletCount.ToString();
         weaponADS();
+        weaponSway();
         if(Input.GetKeyDown(KeyCode.R) && bulletCount != 30)
         {
             StartCoroutine(reload());
@@ -62,6 +74,15 @@ public class weapons : NetworkBehaviour
             bulletCount--;
             CmdShoot(mainCam.transform.position, mainCam.transform.forward, gunBarrel.position, gunBarrel.rotation, raycastThickness, transform.name);
         }
+    }
+
+    private void weaponSway()
+    {
+        float movementX = -Input.GetAxis("Mouse X") * swayAmount;
+        float movementy = -Input.GetAxis("Mouse Y") * swayAmount;
+
+        Vector3 finalPosition = new Vector3(movementX, movementy, 0);
+        weaponHolster.localPosition = Vector3.Lerp(weaponHolster.localPosition, finalPosition + initialWeaponPosition, Time.deltaTime * weaponSwaySmoothness);
     }
 
     private IEnumerator reload()
@@ -118,12 +139,12 @@ public class weapons : NetworkBehaviour
     {
         if(Input.GetKey(KeyCode.Mouse1))
         {
-            //weapon.transform.position = ADStransform.position;
+            swayAmount = swayAmountADS;
             anim.SetBool("isAiming", true);
         }
         else if(!Input.GetKey(KeyCode.Mouse1))
         {
-            //weapon.transform.position = hipFireTransform.position;
+            swayAmount = swayAmountHipfire;
             anim.SetBool("isAiming", false);
         }
 
@@ -147,7 +168,7 @@ public class weapons : NetworkBehaviour
 
     private IEnumerator waitToResetColor(GameObject target)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         target.GetComponent<MeshRenderer>().material.color = Color.blue;
     }
 }
