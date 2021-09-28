@@ -61,6 +61,10 @@ public class playerScript : NetworkBehaviour
         {
             transform.tag = "localPlayer";
             weapon.gameObject.layer = LayerMask.NameToLayer("localWeapon");
+            for(int i = 0; i < weapon.childCount; i++)
+            {
+                weapon.GetChild(i).gameObject.layer = LayerMask.NameToLayer("localWeapon");
+            }
         }
         else
         {
@@ -110,7 +114,7 @@ public class playerScript : NetworkBehaviour
         getInputs();
         movement();
         mouseLook();
-        wallrun();
+        // wallrun();
     }
 
     private void wallrun()
@@ -198,6 +202,10 @@ public class playerScript : NetworkBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         pauseMenuPanel.SetActive(false);
         pauseMenuActive = false;
+    }
+    public void pauseMenu_MainMenu()
+    {
+        NetworkManager.singleton.StopHost();
     }
     public void pauseMenu_Exit()
     {
