@@ -12,8 +12,11 @@ public class playerScript : NetworkBehaviour
     [SerializeField]private float normalSpeed;
     [SerializeField]private float sprintSpeed;
     [SerializeField]private float mouseSens;
-    [SerializeField]private float gravity;
+    [SerializeField]private float Startgravity;
     [SerializeField]private float jumpHeight;
+    [SerializeField]private float wallRunRayDistance;
+    [SerializeField]private float wallRunGravity;
+    [SerializeField]private float wallRunSpeed;
     [Header("Set variables: ")]
     [SerializeField]private Transform cameraTransform;
     [SerializeField]private Transform groundCheck;
@@ -21,12 +24,15 @@ public class playerScript : NetworkBehaviour
     [SerializeField]private Transform weapon;
     [SerializeField]private GameObject canvas;
     [SerializeField]private GameObject pauseMenuPanel;
+    [SerializeField]private Transform wallRunTransform;
+    [SerializeField]private Transform cameraRecoil;
 
     private CharacterController controller;
     private Camera mainCam;
     private AudioSource audioSource;
     private NetworkTransformChild networkTransformChild;
     private playerDeath playerDeathScript;
+    private Animator anim;
 
     private float moveX;
     private float MoveZ;
@@ -38,6 +44,8 @@ public class playerScript : NetworkBehaviour
 
     private Vector3 velocity;
     private Vector3 weaponStartPos;
+    private bool isWallRunning;
+    private float gravity;
 
     private bool isGrounded;
 
@@ -69,7 +77,9 @@ public class playerScript : NetworkBehaviour
         mainCam.transform.parent = cameraTransform;
         Cursor.lockState = CursorLockMode.Locked;
         speed = normalSpeed;
+        gravity = Startgravity;
         canvas.SetActive(true);
+        anim = gameObject.GetComponent<Animator>();
         weaponStartPos = weapon.position;
     }
 
@@ -100,6 +110,40 @@ public class playerScript : NetworkBehaviour
         getInputs();
         movement();
         mouseLook();
+        wallrun();
+    }
+
+    private void wallrun()
+    {
+        //right wallrun
+        if(Physics.Raycast(wallRunTransform.position, wallRunTransform.right, out RaycastHit hit_R, wallRunRayDistance))
+        {
+            if(hit_R.transform.tag == "wallRideable")
+            {
+                anim.SetBool("isWallRunningRight", true);
+                isWallRunning = true;
+                gravity = wallRunGravity;
+                speed = wallRunSpeed;
+            }
+        }
+        //left wallrun
+        else if(Physics.Raycast(wallRunTransform.position, -wallRunTransform.right, out RaycastHit hit_L, wallRunRayDistance))
+        {
+            if(hit_L.transform.tag == "wallRideable")
+            {
+                anim.SetBool("isWallRunningLeft", true);
+                isWallRunning = true;
+                gravity = wallRunGravity;
+                speed = wallRunSpeed;
+            }
+        }
+        else
+        {
+            anim.SetBool("isWallRunningLeft", false);
+            anim.SetBool("isWallRunningRight", false);
+            isWallRunning = false;
+            gravity = Startgravity;
+        }
     }
 
     private void mouseLook()
@@ -132,17 +176,17 @@ public class playerScript : NetworkBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
         //jump
-        if(Input.GetButtonDown("Jump") && isGrounded)
+        if(Input.GetButtonDown("Jump") && isGrounded && isWallRunning == false)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
         //sprint
-        if(Input.GetKey(KeyCode.LeftShift))
+        if(Input.GetKey(KeyCode.LeftShift) && isWallRunning == false)
         {
             //isSprinting
             speed = sprintSpeed;
         }
-        else if(!Input.GetKey(KeyCode.LeftShift))
+        else if(!Input.GetKey(KeyCode.LeftShift) && isWallRunning == false)
         {
             //notSprinting
             speed = normalSpeed;
