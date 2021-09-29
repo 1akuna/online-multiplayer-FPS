@@ -130,7 +130,7 @@ public class playerScript : NetworkBehaviour
                 speed = wallRunSpeed;
                 Quaternion originalRotation = cameraTransform.localRotation;
                 Quaternion setPosition = new Quaternion(cameraTransform.localRotation.x, cameraTransform.localRotation.y, 20, cameraTransform.localRotation.w);
-                cameraTransform.localRotation = Quaternion.Lerp(originalRotation, setPosition, wallRunRotationSmoothness);
+                cameraTransform.localRotation = Quaternion.Lerp(originalRotation, setPosition, wallRunRotationSmoothness * Time.fixedDeltaTime);
             }
         }
         //left wallrun
@@ -144,7 +144,7 @@ public class playerScript : NetworkBehaviour
                 speed = wallRunSpeed;
                 Quaternion originalRotation = cameraTransform.localRotation;
                 Quaternion setPosition = new Quaternion(cameraTransform.localRotation.x, cameraTransform.localRotation.y, -20, cameraTransform.localRotation.w);
-                cameraTransform.localRotation = Quaternion.Lerp(originalRotation, setPosition, wallRunRotationSmoothness);
+                cameraTransform.localRotation = Quaternion.Lerp(originalRotation, setPosition, wallRunRotationSmoothness * Time.fixedDeltaTime);
             }
         }
         else
@@ -153,7 +153,7 @@ public class playerScript : NetworkBehaviour
             gravity = Startgravity;
             Quaternion originalRotation = cameraTransform.localRotation;
             Quaternion setPosition = new Quaternion(cameraTransform.localRotation.x, cameraTransform.localRotation.y, 0, cameraTransform.localRotation.w);
-            cameraTransform.localRotation = Quaternion.Lerp(originalRotation, setPosition, wallRunRotationSmoothness);
+            cameraTransform.localRotation = Quaternion.Lerp(originalRotation, setPosition, wallRunRotationSmoothness * Time.fixedDeltaTime);
         }
     }
 
