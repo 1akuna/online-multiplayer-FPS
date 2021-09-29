@@ -1626,6 +1626,7 @@ MonoBehaviour:
   wallRunRayDistance: 0.8
   wallRunGravity: -5
   wallRunSpeed: 30
+  wallRunRotationSmoothness: 0.01
   cameraTransform: {fileID: 8447645321998677971}
   groundCheck: {fileID: 5919785111733854483}
   groundMask:

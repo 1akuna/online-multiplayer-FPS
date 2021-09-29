@@ -17,6 +17,7 @@ public class playerScript : NetworkBehaviour
     [SerializeField]private float wallRunRayDistance;
     [SerializeField]private float wallRunGravity;
     [SerializeField]private float wallRunSpeed;
+    [SerializeField]private float wallRunRotationSmoothness;
     [Header("Set variables: ")]
     [SerializeField]private Transform cameraTransform;
     [SerializeField]private Transform groundCheck;
@@ -114,7 +115,7 @@ public class playerScript : NetworkBehaviour
         getInputs();
         movement();
         mouseLook();
-        // wallrun();
+        wallrun();
     }
 
     private void wallrun()
@@ -124,10 +125,12 @@ public class playerScript : NetworkBehaviour
         {
             if(hit_R.transform.tag == "wallRideable")
             {
-                anim.SetBool("isWallRunningRight", true);
                 isWallRunning = true;
                 gravity = wallRunGravity;
                 speed = wallRunSpeed;
+                Quaternion originalRotation = cameraTransform.localRotation;
+                Quaternion setPosition = new Quaternion(cameraTransform.localRotation.x, cameraTransform.localRotation.y, 20, cameraTransform.localRotation.w);
+                cameraTransform.localRotation = Quaternion.Lerp(originalRotation, setPosition, wallRunRotationSmoothness);
             }
         }
         //left wallrun
@@ -135,18 +138,22 @@ public class playerScript : NetworkBehaviour
         {
             if(hit_L.transform.tag == "wallRideable")
             {
-                anim.SetBool("isWallRunningLeft", true);
+
                 isWallRunning = true;
                 gravity = wallRunGravity;
                 speed = wallRunSpeed;
+                Quaternion originalRotation = cameraTransform.localRotation;
+                Quaternion setPosition = new Quaternion(cameraTransform.localRotation.x, cameraTransform.localRotation.y, -20, cameraTransform.localRotation.w);
+                cameraTransform.localRotation = Quaternion.Lerp(originalRotation, setPosition, wallRunRotationSmoothness);
             }
         }
         else
         {
-            anim.SetBool("isWallRunningLeft", false);
-            anim.SetBool("isWallRunningRight", false);
             isWallRunning = false;
             gravity = Startgravity;
+            Quaternion originalRotation = cameraTransform.localRotation;
+            Quaternion setPosition = new Quaternion(cameraTransform.localRotation.x, cameraTransform.localRotation.y, 0, cameraTransform.localRotation.w);
+            cameraTransform.localRotation = Quaternion.Lerp(originalRotation, setPosition, wallRunRotationSmoothness);
         }
     }
 
